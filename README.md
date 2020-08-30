@@ -1,2 +1,5 @@
-# Automatic-black-Jack-player
+# Black_Jack_Martingale_Simulator
 Under construction
+
+
+
