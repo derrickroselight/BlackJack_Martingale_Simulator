@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Feb 13 05:31:40 2020
-
 @author: Light
 """
 
@@ -17,6 +16,7 @@ ace_table = pd.read_csv('/Users/Light/PythonData/BlackJack/Ace_Strategy_Table.tx
 ace2_table = pd.read_csv('/Users/Light/PythonData/BlackJack/Ace2_Strategy_Table.txt', sep=" ",index_col = 0,engine='python')
 pair_table = pd.read_csv('/Users/Light/PythonData/BlackJack/Pair_Strategy_Table.txt', sep=" ",index_col = 0,engine='python')
 
+# Variable Area
 blackjack = set(['A',10])
 d_hand = []
 p_hand = []
@@ -24,7 +24,7 @@ num_decks = 1
 card_types = ['A',2,3,4,5,6,7,8,9,10,10,10,10]
 player_results = []
 deposit_curve = []
-deposit = 128
+deposit = 2050
 bet = 1
 
 # Make a deck
@@ -36,8 +36,8 @@ def make_decks(num_decks, card_types):
     random.shuffle(new_deck)
     return new_deck
 
-dealer_cards = make_decks(num_decks, card_types)
 
+dealer_cards = make_decks(num_decks, card_types)
 
 # This function lists out all permutations of ace values in the
 # array sum_array.
@@ -45,6 +45,7 @@ dealer_cards = make_decks(num_decks, card_types)
 #     [[1,1], [1,11], [11,1], [11,11]]
 # These permutations lead to 3 unique sums: [2, 12, 22]
 # Of these 3, only 2 are <=21 so they are returned: [2, 12]
+
 def get_ace_values(temp_list):
     sum_array = np.zeros((2**len(temp_list), len(temp_list)))
     # This loop gets the permutations
@@ -177,10 +178,16 @@ def Let_us_play(stacks):
                 p_hand.append(dealer_cards.pop(0))
                 check_ace(p_hand)
                 
-        if deposit >= 200 :
+        if deposit >= 4000 :
+             deposit_curve.append(deposit)
              print('Enough')
              break
-        elif bet > 128:
+         
+        #elif bet >= 256:
+        #     print('Game Over')
+        #     break
+        elif deposit <= 0:
+             deposit_curve.append(deposit)
              print('Game Over')
              break
          
@@ -298,19 +305,27 @@ def battle(p_hand, d_hand):
         elif result == 'L':
             deposit = deposit - bet
             bet *= 2
+            if bet > deposit:
+                bet = deposit
             
-            
-        if deposit < 0 or bet > 128:
-            deposit = -999999999999999
+        #if deposit < 0:
+        #    deposit = -999999999999999
         deposit_curve.append(deposit)    
         player_results.append(result)
        
-Let_us_play(200) 
+Let_us_play(10000)
 
-deposit_curve = deposit_curve[:-1]
-data = pd.DataFrame(deposit_curve)
-ax = sns.lineplot(data=data)
+df = pd.DataFrame()
+
+
+df['Balance'] = deposit_curve
+df['Rounds'] = df.index
+#deposit_curve = deposit_curve[:-1]
+#data = pd.DataFrame(deposit_curve)
+plt.figure(figsize=(20, 12))
+sns.set_theme()
+sns.set_context("paper", font_scale=2.5, rc={"lines.linewidth":2.5})
+plt.title("Blackjack Result",fontdict= { 'fontsize': 30, 'fontweight':'bold'})
+sns.lineplot(data=df,x = 'Rounds', y ='Balance')
 plt.show()
-
-
 
