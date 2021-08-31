@@ -4,8 +4,8 @@ TL;DR
 When playing blackjack, never double down while losing!
 
 
-![image](https://github.com/derrickroselight/Black_Jack_Martingale_Simulator/blob/master/Blackjack.png)
-![image](https://github.com/derrickroselight/Black_Jack_Martingale_Simulator/blob/master/strategy_table.png)
+![image](https://github.com/derrickroselight/Black_Jack_Martingale_Simulator/blob/master/image file/Blackjack.png)
+![image](https://github.com/derrickroselight/Black_Jack_Martingale_Simulator/blob/master/image file/strategy_table.png)
 
 
 
